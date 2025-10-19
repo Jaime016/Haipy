@@ -1,0 +1,25 @@
+<ion-content>
+  <form (ngSubmit)="saveNote()">
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input [(ngModel)]="note.title" name="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contenido</ion-label>
+      <ion-textarea [(ngModel)]="note.content" name="content"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Etiquetas (separadas por comas)</ion-label>
+      <ion-input [(ngModel)]="tags" name="tags"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Recordatorio</ion-label>
+      <ion-datetime [(ngModel)]="note.reminder" name="reminder"></ion-datetime>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Guardar Nota</ion-button>
+  </form>
+</ion-content>

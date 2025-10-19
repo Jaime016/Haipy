@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Notas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let nota of notas">
+      <ion-label (click)="editarNota(nota)">
+        <h2>{{ nota.titulo }}</h2>
+        <p>{{ nota.contenido }}</p>
+        <small>{{ nota.fecha }}</small>
+      </ion-label>
+
+      <!-- Botón favorito -->
+      <ion-button fill="solid" slot="end" color="warning" (click)="toggleFavorito(nota, $event)">
+        <ion-icon slot="icon-only" [name]="nota.favorito ? 'star' : 'star-outline'"></ion-icon>
+      </ion-button>
+
+      <!-- Botón eliminar -->
+      <ion-button fill="solid" color="danger" slot="end" (click)="eliminarNota(nota.id, $event)">
+        <ion-icon slot="icon-only" name="trash-"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

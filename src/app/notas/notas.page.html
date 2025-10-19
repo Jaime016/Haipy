@@ -1,0 +1,17 @@
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar notas"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let note of notes | filter:searchTerm">
+      <ion-label>
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content }}</p>
+      </ion-label>
+      <ion-button fill="clear" (click)="toggleFavorite(note)">
+        <ion-icon [name]="note.favorite ? 'heart' : 'heart-outline'"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="deleteNote(note.id)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
