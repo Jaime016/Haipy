@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { NotasService } from '../../services/notes.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Nota } from '../../models/note.model';
+import { NotasService, Nota } from '../../services/notes.service';
+
 
 @Component({
   selector: 'app-agregar',
@@ -14,30 +14,30 @@ import { Nota } from '../../models/note.model';
   imports: [IonicModule, FormsModule, CommonModule],
 })
 export class AgregarPage {
-  titulo = '';
-  contenido = '';
-  editando = false;
-  notaId?: number;
+  titulo: string = '';
+  contenido: string = '';
+  modoEdicion: boolean = false;
+  idNota: number | null = null;
 
-  constructor(private notasService: NotasService, private router: Router, private route: ActivatedRoute) {
+  constructor(private notasService: NotasService, private router: Router) {
+    // Revisar si viene nota para edición
     const nav = this.router.getCurrentNavigation();
-    const nota = nav?.extras?.state?.['nota'] as Nota;
-
-    if (nota) {
-      this.editando = true;
-      this.notaId = nota.id;
+    if (nav?.extras?.state && nav.extras.state['nota']) {
+      const nota = nav.extras.state['nota'] as Nota;
       this.titulo = nota.titulo;
       this.contenido = nota.contenido;
+      this.idNota = nota.id;
+      this.modoEdicion = true;
     }
   }
 
-  guardarNota() {
+  async guardarNota() {
     if (!this.titulo || !this.contenido) return;
 
-    if (this.editando && this.notaId) {
-      this.notasService.actualizarNota(this.notaId, this.titulo, this.contenido);
+    if (this.modoEdicion && this.idNota !== null) {
+      await this.notasService.actualizarNota(this.idNota, this.titulo, this.contenido);
     } else {
-      this.notasService.agregarNota(this.titulo, this.contenido);
+      await this.notasService.agregarNota(this.titulo, this.contenido);
     }
 
     this.router.navigate(['/notas']);

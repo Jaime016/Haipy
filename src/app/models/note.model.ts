@@ -3,5 +3,6 @@ export interface Nota {
   titulo: string;
   contenido: string;
   fecha: string;
-  favorito?: boolean; // nuevo campo
+  favorito: boolean;
 }
+

@@ -1,19 +1,42 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>{{ editando ? 'Editar Nota' : 'Agregar Nota' }}</ion-title>
+    <ion-title class="titulo-animado">
+      {{ modoEdicion ? 'Editar Nota' : 'Nueva Nota' }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-input [(ngModel)]="titulo" placeholder="Título de la nota"></ion-input>
-  </ion-item>
+<ion-content fullscreen class="agregar-content">
 
-  <ion-item>
-    <ion-textarea [(ngModel)]="contenido" placeholder="Escribe tu nota..."></ion-textarea>
-  </ion-item>
+  <div class="nota-container">
 
-  <ion-button expand="full" color="success" (click)="guardarNota()">
-    {{ editando ? 'Actualizar' : 'Guardar' }}
-  </ion-button>
+    <!-- Campo de título -->
+    <div class="titulo-area">
+      <ion-input
+        class="titulo-input"
+        placeholder="Escribe el título..."
+        [(ngModel)]="titulo">
+      </ion-input>
+    </div>
+
+    <!-- Campo de contenido tipo cuaderno -->
+    <div class="notebook">
+      <ion-textarea
+        [(ngModel)]="contenido"
+        placeholder="Escribe tu nota aquí..."
+        autoGrow="true">
+      </ion-textarea>
+    </div>
+
+  </div>
+
 </ion-content>
+
+<!-- Botón Guardar fijo abajo -->
+<ion-footer class="footer-boton">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="guardarNota()">
+      {{ modoEdicion ? 'Actualizar Nota' : 'Guardar Nota' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
