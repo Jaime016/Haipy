@@ -24,7 +24,7 @@ export class NotasService {
         {
           id: 1,
           titulo: 'Bienvenido a Haipy',
-          contenido: 'Esta es tu primera nota 🪶',
+          contenido: 'Esta es tu primera nota',
           fecha: new Date().toLocaleString(),
           favorito: false
         }

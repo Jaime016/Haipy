@@ -1,11 +1,16 @@
 /* Fondo general en modo claro */
 ion-content {
-  --background: #f8f9fa;
+  --background: #0f64b9;
+  
+}
+.listas{
+  border-radius: 15px;
+  color: red;
 }
 
 /* Cada nota */
 .nota-item {
-  background: #ffffff;
+  background: blue;
   border-radius: 10px;
   margin: 10px 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -37,12 +42,12 @@ ion-label p {
 
 /* Íconos */
 ion-button[color="danger"] ion-icon {
-  color: #e63946;
-  font-size: 20px;
+  color: red;
+  font-size: 30px;
 }
 
 ion-button[color="warning"] ion-icon {
-  color: #f4a261;
+  color: yellow;
   font-size: 20px;
 }
 
