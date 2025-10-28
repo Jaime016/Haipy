@@ -20,7 +20,7 @@
           <ion-icon [name]="nota.favorito ? 'star' : 'star-outline'"></ion-icon>
         </ion-button>
 
-        <ion-button fill="clear" color="danger" (click)="eliminarNota(nota, $event)">
+        <ion-button fill="clear" (click)="eliminarNota(nota, $event)">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
