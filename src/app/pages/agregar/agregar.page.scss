@@ -1,0 +1,121 @@
+/* ==== GENERAL ==== */
+.agregar-content {
+  --background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.nota-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 10px;
+}
+
+/* ==== TÍTULO CENTRADO ==== */
+.titulo-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.titulo-input {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  width: 90%;
+  padding: 8px;
+  background: transparent;
+  color: #222;
+}
+
+.titulo-input:focus-within {
+  border-bottom: 2px solid var(--ion-color-primary);
+  transform: scale(1.02);
+}
+
+/* ==== EFECTO DE ENTRADA DE TÍTULO ==== */
+.titulo-animado {
+  text-align: center;
+  font-size: 1.2rem;
+  animation: fadeInDown 0.6s ease-in-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==== CUADERNO ==== */
+.notebook {
+  position: relative;
+  flex: 1;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #fff,
+    #fff 22px,
+    #dcdcdc 23px
+  );
+  background-attachment: local;
+  border-left: 6px solid #ff4d4d; /* margen rojo tipo cuaderno */
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  padding: 10px 15px;
+  overflow: hidden;
+}
+
+/* Texto sobre líneas */
+ion-textarea {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  font-family: 'Patrick Hand', 'Courier New', cursive;
+  font-size: 1rem;
+  line-height: 23px;
+  color: #222;
+  padding-left: 10px;
+  resize: none;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+/* Efecto al tocar */
+ion-textarea:focus-within {
+  outline: none;
+  transform: scale(1.01);
+}
+
+/* Mantener formato al abrir teclado */
+ion-textarea::part(native-textarea) {
+  line-height: 23px;
+  font-size: 1rem;
+  color: #222;
+}
+
+/* ==== BOTÓN GUARDAR ==== */
+.footer-boton ion-toolbar {
+  --background: #ffffff;
+  padding: 10px;
+}
+
+.footer-boton ion-button {
+  --background: var(--ion-color-primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.footer-boton ion-button:active {
+  transform: scale(0.98);
+}

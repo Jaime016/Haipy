@@ -5,23 +5,31 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let nota of notas">
-      <ion-label (click)="editarNota(nota)">
+
+  <ion-list class="listas">
+    <!-- Lista de notas -->
+    <ion-item *ngFor="let nota of notas" class="nota-item" (click)="editarNota(nota)">
+      <ion-label>
         <h2>{{ nota.titulo }}</h2>
         <p>{{ nota.contenido }}</p>
-        <small>{{ nota.fecha }}</small>
+        <small *ngIf="nota.favorito" class="favorito-text">⭐ Favorito</small>
       </ion-label>
 
-      <!-- Botón favorito -->
-      <ion-button fill="solid" slot="end" color="warning" (click)="toggleFavorito(nota, $event)">
-        <ion-icon slot="icon-only" [name]="nota.favorito ? 'star' : 'star-outline'"></ion-icon>
-      </ion-button>
+      <ion-buttons class="nota-buttons" slot="end">
+        <ion-button fill="clear" color="warning" (click)="toggleFavorito(nota, $event)">
+          <ion-icon [name]="nota.favorito ? 'star' : 'star-outline'"></ion-icon>
+        </ion-button>
 
-      <!-- Botón eliminar -->
-      <ion-button fill="solid" color="danger" slot="end" (click)="eliminarNota(nota.id, $event)">
-        <ion-icon slot="icon-only" name="trash-"></ion-icon>
-      </ion-button>
+        <ion-button fill="clear" (click)="eliminarNota(nota, $event)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <!-- Mensaje si no hay notas -->
+    <ion-item *ngIf="notas.length === 0">
+      <ion-label class="no-notas">No hay notas todavía.</ion-label>
     </ion-item>
   </ion-list>
+
 </ion-content>

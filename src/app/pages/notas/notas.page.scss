@@ -1,0 +1,66 @@
+/* Fondo general en modo claro */
+ion-content {
+  --background: #0f64b9;
+  
+}
+.listas{
+  border-radius: 15px;
+  color: red;
+}
+
+/* Cada nota */
+.nota-item {
+  background: blue;
+  border-radius: 10px;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nota-item:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Título y texto */
+ion-label h2 {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+ion-label p {
+  color: #444;
+  margin: 0;
+  font-size: 14px;
+}
+
+.favorito-text {
+  color: #f4a261;
+  font-weight: 500;
+}
+
+/* Íconos */
+ion-button[color="danger"] ion-icon {
+  color: red;
+  font-size: 30px;
+}
+
+ion-button[color="warning"] ion-icon {
+  color: yellow;
+  font-size: 20px;
+}
+
+/* Botón flotante */
+ion-fab-button {
+  --background: #3880ff;
+  --color: #ffffff;
+  box-shadow: 0 3px 10px rgba(56, 128, 255, 0.3);
+}
+
+/* Mensaje cuando no hay notas */
+.no-notas {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
