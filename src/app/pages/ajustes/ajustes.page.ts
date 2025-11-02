@@ -16,6 +16,9 @@ export class AjustesPage {
   nombreUsuario: string | null = null;
   correoUsuario: string | null = null;
   modoOscuro = false;
+  mostrarLogin: boolean = false; // controla la visibilidad del formulario
+  correoLogin: string = '';
+  contrasenaLogin: string = '';
 
   constructor(private router: Router, private alertCtrl: AlertController) {}
 
@@ -26,12 +29,56 @@ export class AjustesPage {
 
   // 🔹 Autenticación
   iniciarSesion() {
-    this.router.navigate(['/login']);
+  this.mostrarLogin = true; // el formulario aparecerá
+  }
+  //iniciarSesion() {
+  //  this.router.navigate(['/login']);
+  //} actializacion abajo
+  loguearUsuario() {
+    if (this.correoLogin && this.contrasenaLogin) {
+      this.nombreUsuario = this.correoLogin.split('@')[0]; // ejemplo de nombre
+      this.correoUsuario = this.correoLogin;
+      this.mostrarLogin = false; // oculta el formulario después de “loguear”
+      this.alertCtrl.create({
+        header: 'Bienvenido',
+        message: `Hola, ${this.nombreUsuario}!`,
+        buttons: ['OK']
+      }).then(alert => alert.present());
+    } else {
+      this.alertCtrl.create({
+        header: 'Error',
+        message: 'Debes completar ambos campos',
+        buttons: ['OK']
+      }).then(alert => alert.present());
+    }
+  }
+  //hasta aqui
+  //registrarse() {
+  //  this.router.navigate(['/registro']);
+  //}
+  mostrarRegistro: boolean = false; // controla la visibilidad del formulario de registro
+  nombreRegistro: string = '';
+  correoRegistro: string = '';
+  contrasenaRegistro: string = '';
+  registrarse() {
+    this.mostrarRegistro = true; // activa el formulario de registro
+  }
+  crearCuenta() {
+    if (this.nombreRegistro && this.correoRegistro && this.contrasenaRegistro) {
+      // Simulamos que se crea la cuenta y se loguea al usuario
+      this.nombreUsuario = this.nombreRegistro;
+      this.correoUsuario = this.correoRegistro;
+      this.mostrarRegistro = false; // ocultamos el formulario
+      alert(`Cuenta creada con éxito! Bienvenido, ${this.nombreUsuario}`);
+      // Limpiamos campos
+      this.nombreRegistro = '';
+      this.correoRegistro = '';
+      this.contrasenaRegistro = '';
+    } else {
+      alert('Completa todos los campos para crear la cuenta');
+    }
   }
 
-  registrarse() {
-    this.router.navigate(['/registro']);
-  }
 
   loginConGoogle() {
     alert('Inicio de sesión con Google próximamente 🌐');

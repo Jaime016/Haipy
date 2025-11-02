@@ -22,25 +22,72 @@
   </div>
 
   <!-- 🔹 CUENTA DE USUARIO -->
-  <ion-card>
+    <ion-card>
     <ion-card-header>
       <ion-card-title>Cuenta</ion-card-title>
       <ion-card-subtitle>Gestión de acceso</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
-      <ion-button expand="block" color="primary" (click)="iniciarSesion()">
-        Iniciar sesión
-      </ion-button>
-      <ion-button expand="block" fill="outline" (click)="registrarse()">
-        Crear cuenta
-      </ion-button>
-      <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
-        <ion-icon name="logo-google" slot="start"></ion-icon>
-        Iniciar con Google
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+      <!--<ion-card-content>
+        <ion-button expand="block" color="primary" (click)="iniciarSesion()">
+        
+          Iniciar sesión
+        </ion-button>
+        <ion-button expand="block" fill="outline" (click)="registrarse()">
+          Crear cuenta
+        </ion-button>
+        <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Iniciar con Google
+        </ion-button>
+      </ion-card-content>-->
+      <ion-card-content>
+    <!-- Solo se muestran si no hay usuario logueado -->
+    <div *ngIf="!nombreUsuario">
 
+      <!-- Botón Iniciar sesión -->
+      <div>
+        <ion-button expand="block" color="primary" (click)="mostrarLogin = !mostrarLogin; mostrarRegistro = false;">
+          Iniciar sesión
+        </ion-button>
+
+        <!-- Formulario de login debajo del botón -->
+        <div *ngIf="mostrarLogin" class="login-form" style="margin-top: 10px;">
+          <ion-input placeholder="Correo" [(ngModel)]="correoLogin" type="email"></ion-input>
+          <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaLogin" type="password"></ion-input>
+          <ion-button expand="block" color="primary" (click)="loguearUsuario()">Entrar</ion-button>
+        </div>
+      </div>
+
+      <!-- Botón Crear cuenta -->
+      <div style="margin-top: 15px;">
+        <ion-button expand="block" fill="outline" (click)="mostrarRegistro = !mostrarRegistro; mostrarLogin = false;">
+          Crear cuenta
+        </ion-button>
+
+        <!-- Formulario de registro debajo del botón -->
+        <div *ngIf="mostrarRegistro" class="registro-form" style="margin-top: 10px;">
+          <ion-input placeholder="Nombre" [(ngModel)]="nombreRegistro"></ion-input>
+          <ion-input placeholder="Correo" [(ngModel)]="correoRegistro" type="email"></ion-input>
+          <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaRegistro" type="password"></ion-input>
+          <ion-button expand="block" color="primary" (click)="crearCuenta()">Crear cuenta</ion-button>
+        </div>
+      </div>
+
+      <!-- Botón Google siempre visible mientras no hay usuario -->
+      <div style="margin-top: 15px;">
+        <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Iniciar con Google
+        </ion-button>
+      </div>
+
+    </div> <!-- FIN *ngIf="!nombreUsuario" -->
+  </ion-card-content>
+
+
+
+    </ion-card> 
+    
   <!-- 🔹 OPCIONES DE NOTAS -->
   <ion-list inset>
     <ion-list-header>

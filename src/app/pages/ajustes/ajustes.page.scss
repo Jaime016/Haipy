@@ -45,3 +45,36 @@ ion-toggle {
 .dark .perfil-header {
   background: linear-gradient(135deg, #1c1c1c, #333);
 }
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+ion-input {
+  --background: #f4f4f4;
+  --border-radius: 12px;
+  padding-left: 10px;
+}
+
+ion-button {
+  margin-top: 5px;
+}
+
+.registro-form, .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+ion-input {
+  --background: #f4f4f4;
+  --border-radius: 12px;
+  padding-left: 10px;
+}
+
+ion-button {
+  margin-top: 5px;
+}
