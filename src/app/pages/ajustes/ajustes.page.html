@@ -93,6 +93,28 @@
     <ion-list-header>
       <ion-label>Gestión de notas</ion-label>
     </ion-list-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Exportar / Importar Notas</ion-card-title>
+      <ion-card-subtitle>Respaldá tus notas de Haipy</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" color="primary" (click)="exportarNotasJSON()">
+        Exportar notas (JSON)
+      </ion-button>
+
+      <ion-button expand="block" color="secondary" (click)="exportarNotasPDF()">
+        Exportar notas (PDF)
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="fileInput.click()">
+        Importar notas (JSON)
+      </ion-button>
+
+      <input type="file" #fileInput (change)="importarNotasJSON($event)" hidden accept=".json">
+    </ion-card-content>
+  </ion-card>
+
 
     <ion-item button detail (click)="abrirFavoritos()">
       <ion-icon slot="start" name="star-outline"></ion-icon>

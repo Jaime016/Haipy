@@ -3,6 +3,8 @@ import { IonicModule, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { jsPDF } from 'jspdf';
+
 
 @Component({
   selector: 'app-ajustes',
@@ -19,6 +21,61 @@ export class AjustesPage {
   mostrarLogin: boolean = false; // controla la visibilidad del formulario
   correoLogin: string = '';
   contrasenaLogin: string = '';
+// 🔹 Notas de ejemplo
+notas = [
+  { id: 1, titulo: 'Nota 1', contenido: 'Contenido de la nota 1' },
+  { id: 2, titulo: 'Nota 2', contenido: 'Contenido de la nota 2' },
+];
+// 🔹 Exportar notas a JSON
+exportarNotasJSON() {
+  const dataStr = JSON.stringify(this.notas, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = window.URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'notas_haipy.json';
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+
+// 🔹 Importar notas desde JSON
+importarNotasJSON(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    try {
+      this.notas = JSON.parse(e.target.result);
+      alert('Notas importadas correctamente ✅');
+    } catch (err) {
+      alert('Error al importar el archivo ⚠️');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// 🔹 Exportar notas a PDF
+exportarNotasPDF() {
+  const doc = new jsPDF();
+  let y = 10;
+
+  this.notas.forEach((nota, index) => {
+    doc.setFontSize(14);
+    doc.text(`Nota ${index + 1}: ${nota.titulo}`, 10, y);
+    y += 10;
+    doc.setFontSize(12);
+    doc.text(nota.contenido, 10, y);
+    y += 15;
+  });
+
+  doc.save('notas_haipy.pdf');
+}
+
+
+
+
 
   constructor(private router: Router, private alertCtrl: AlertController) {}
 
@@ -105,7 +162,11 @@ export class AjustesPage {
 
   // 🔹 Tema oscuro
   toggleTema() {
-    document.body.classList.toggle('dark', this.modoOscuro);
-    localStorage.setItem('modoOscuro', String(this.modoOscuro));
+    if (this.modoOscuro) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }
+  
 }
