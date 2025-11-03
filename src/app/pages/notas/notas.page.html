@@ -6,9 +6,8 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Lista de notas -->
   <ion-list class="listas">
-    <ion-item *ngFor="let nota of notas" class="nota-item">
+    <ion-item *ngFor="let nota of notas" class="nota-item" (click)="editarNota(nota)">
       <ion-label>
         <h2>{{ nota.titulo }}</h2>
         <p>{{ nota.contenido }}</p>
@@ -26,34 +25,29 @@
       </ion-buttons>
     </ion-item>
 
-    <!-- Mensaje si no hay notas -->
     <ion-item *ngIf="notas.length === 0">
       <ion-label class="no-notas">No hay notas todavía.</ion-label>
     </ion-item>
   </ion-list>
 
-  <!-- Formulario de nueva nota (solo visible cuando se activa) -->
-  <ion-card *ngIf="mostrandoFormulario">
-    <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Título</ion-label>
-        <ion-input [(ngModel)]="nueva.titulo"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Contenido</ion-label>
-        <ion-textarea [(ngModel)]="nueva.contenido"></ion-textarea>
-      </ion-item>
-      <ion-button expand="full" color="primary" (click)="guardarNuevaNota()">Guardar</ion-button>
-      <ion-button expand="full" color="medium" fill="outline" (click)="cancelarNuevaNota()">Cancelar</ion-button>
-    </ion-card-content>
-  </ion-card>
+  <!-- Botones flotantes -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <!-- Botón de dibujar -->
+    <ion-fab-button class="fab-blanco" (click)="abrirCanvas()">
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-fab-button>
 
-<!-- FAB para agregar nueva nota directamente en la misma página -->
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button class="fab-blanco" (click)="agregarNotaLocal()">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+    <!-- Botón + para nueva nota -->
+    <ion-fab-button (click)="nuevaNota()" color="light">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
+  <!-- Canvas para dibujar -->
+  <div class="canvas-container" *ngIf="canvasAbierto">
+    <canvas #canvas></canvas>
+    <ion-button expand="block" (click)="guardarDibujo()">Guardar Dibujo</ion-button>
+    <ion-button expand="block" color="medium" (click)="cerrarCanvas()">Cerrar</ion-button>
+  </div>
 
-
+</ion-content>
