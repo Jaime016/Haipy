@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Haipy</string>
+    <string name="title_activity_main">Haipy</string>
+    <string name="package_name">com.tuapp.haipy</string>
+    <string name="custom_url_scheme">com.tuapp.haipy</string>
+</resources>

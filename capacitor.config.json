@@ -1,0 +1,6 @@
+{
+  "appId": "com.tuapp.haipy",
+  "appName": "Haipy",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

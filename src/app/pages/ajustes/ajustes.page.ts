@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { jsPDF } from 'jspdf';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
+// 🔹 Firebase para login con Google
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 @Component({
   selector: 'app-ajustes',
@@ -18,9 +20,14 @@ export class AjustesPage {
   nombreUsuario: string | null = null;
   correoUsuario: string | null = null;
   modoOscuro = false;
-  mostrarLogin: boolean = false; // controla la visibilidad del formulario
+  mostrarLogin: boolean = false;
   correoLogin: string = '';
   contrasenaLogin: string = '';
+
+  mostrarRegistro: boolean = false;
+  nombreRegistro: string = '';
+  correoRegistro: string = '';
+  contrasenaRegistro: string = '';
 
   // 🔹 Notas de ejemplo
   notas = [
@@ -28,28 +35,17 @@ export class AjustesPage {
     { id: 2, titulo: 'Nota 2', contenido: 'Contenido de la nota 2' },
   ];
 
-  constructor(private router: Router, private alertCtrl: AlertController) {}
-
-  // 🔹 Cambiar o elegir imagen desde galería
-  async cambiarImagen() {
-    try {
-      const foto = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos, // Solo galería
-      });
-
-      // Asignación segura
-      if (foto.dataUrl) {
-        this.imagenPerfil = foto.dataUrl;
-      }
-    } catch (error) {
-      console.log('Error al seleccionar la imagen:', error);
+  constructor(private router: Router, private alertCtrl: AlertController) {
+    // 🔹 Restaurar sesión si existe
+    const usuarioGuardado = localStorage.getItem('usuarioHaipy');
+    if (usuarioGuardado) {
+      const user = JSON.parse(usuarioGuardado);
+      this.nombreUsuario = user.nombre;
+      this.correoUsuario = user.correo;
     }
   }
 
-  // 🔹 Exportar notas a JSON
+  // 🔹 Exportar / Importar notas
   exportarNotasJSON() {
     const dataStr = JSON.stringify(this.notas, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -62,7 +58,6 @@ export class AjustesPage {
     window.URL.revokeObjectURL(url);
   }
 
-  // 🔹 Importar notas desde JSON
   importarNotasJSON(event: any) {
     const file = event.target.files[0];
     if (!file) return;
@@ -71,19 +66,17 @@ export class AjustesPage {
     reader.onload = (e: any) => {
       try {
         this.notas = JSON.parse(e.target.result);
-        alert('Notas importadas correctamente ✅');
-      } catch (err) {
-        alert('Error al importar el archivo ⚠️');
+        this.mostrarAlerta('✅ Importación exitosa', 'Las notas fueron importadas correctamente.');
+      } catch {
+        this.mostrarAlerta('⚠️ Error', 'Hubo un problema al importar el archivo.');
       }
     };
     reader.readAsText(file);
   }
 
-  // 🔹 Exportar notas a PDF
   exportarNotasPDF() {
     const doc = new jsPDF();
     let y = 10;
-
     this.notas.forEach((nota, index) => {
       doc.setFontSize(14);
       doc.text(`Nota ${index + 1}: ${nota.titulo}`, 10, y);
@@ -92,95 +85,127 @@ export class AjustesPage {
       doc.text(nota.contenido, 10, y);
       y += 15;
     });
-
     doc.save('notas_haipy.pdf');
   }
 
-  // 🔹 Autenticación
-  iniciarSesion() {
-    this.mostrarLogin = true;
+  // 🔹 Imagen de perfil
+  cambiarImagen() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagenPerfil = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   }
 
-  loguearUsuario() {
-    if (this.correoLogin && this.contrasenaLogin) {
-      this.nombreUsuario = this.correoLogin.split('@')[0]; // ejemplo de nombre
-      this.correoUsuario = this.correoLogin;
-      this.mostrarLogin = false; // oculta el formulario después de loguear
-      this.alertCtrl.create({
-        header: 'Bienvenido',
-        message: `Hola, ${this.nombreUsuario}!`,
-        buttons: ['OK'],
-      }).then(alert => alert.present());
+  // 🔹 Login / Registro local
+  async loguearUsuario() {
+    const usuarioGuardado = localStorage.getItem('usuarioHaipy');
+    if (!usuarioGuardado) {
+      this.mostrarAlerta('⚠️ Sin cuenta', 'Primero debes crear una cuenta.');
+      return;
+    }
+
+    const user = JSON.parse(usuarioGuardado);
+    if (this.correoLogin === user.correo && this.contrasenaLogin === user.contrasena) {
+      this.nombreUsuario = user.nombre;
+      this.correoUsuario = user.correo;
+      this.mostrarLogin = false;
+
+      await this.mostrarAlerta('🎉 Bienvenido', `Hola, ${this.nombreUsuario}!`);
+      this.router.navigate(['/vista-notas']);
     } else {
-      this.alertCtrl.create({
-        header: 'Error',
-        message: 'Debes completar ambos campos',
-        buttons: ['OK'],
-      }).then(alert => alert.present());
+      this.mostrarAlerta('❌ Error', 'Correo o contraseña incorrectos.');
     }
   }
 
-  mostrarRegistro: boolean = false; // controla visibilidad del registro
-  nombreRegistro: string = '';
-  correoRegistro: string = '';
-  contrasenaRegistro: string = '';
-
-  registrarse() {
-    this.mostrarRegistro = true;
-  }
-
-  crearCuenta() {
+  async crearCuenta() {
     if (this.nombreRegistro && this.correoRegistro && this.contrasenaRegistro) {
-      this.nombreUsuario = this.nombreRegistro;
-      this.correoUsuario = this.correoRegistro;
+      const usuario = {
+        nombre: this.nombreRegistro,
+        correo: this.correoRegistro,
+        contrasena: this.contrasenaRegistro,
+      };
+
+      localStorage.setItem('usuarioHaipy', JSON.stringify(usuario));
+
+      this.nombreUsuario = usuario.nombre;
+      this.correoUsuario = usuario.correo;
       this.mostrarRegistro = false;
-      alert(`Cuenta creada con éxito! Bienvenido, ${this.nombreUsuario}`);
-      // Limpiar campos
+
+      await this.mostrarAlerta('✅ Cuenta creada', `Bienvenido, ${this.nombreUsuario}!`);
+
       this.nombreRegistro = '';
       this.correoRegistro = '';
       this.contrasenaRegistro = '';
+
+      this.router.navigate(['/vista-notas']);
     } else {
-      alert('Completa todos los campos para crear la cuenta');
+      this.mostrarAlerta('⚠️ Campos incompletos', 'Completa todos los campos para registrarte.');
     }
   }
 
-  loginConGoogle() {
-    alert('Inicio de sesión con Google próximamente 🌐');
+  // 🔹 Login con Google
+  async loginConGoogle() {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      this.nombreUsuario = result.user.displayName || 'Usuario Google';
+      this.correoUsuario = result.user.email;
+
+      // Guardar sesión
+      localStorage.setItem('usuarioHaipy', JSON.stringify({
+        nombre: this.nombreUsuario,
+        correo: this.correoUsuario,
+      }));
+
+      await this.mostrarAlerta('👋 Bienvenido', `Hola, ${this.nombreUsuario}!`);
+      this.router.navigate(['/vista-notas']);
+    } catch (error) {
+      console.error(error);
+      this.mostrarAlerta('⚠️ Error', 'No se pudo iniciar sesión con Google.');
+    }
   }
 
-  cerrarSesion() {
+  async cerrarSesion() {
     this.nombreUsuario = null;
     this.correoUsuario = null;
-    alert('Sesión cerrada correctamente ✅');
+    localStorage.removeItem('usuarioHaipy');
+    await this.mostrarAlerta('👋 Sesión cerrada', 'Has salido correctamente.');
   }
 
   // 🔹 Navegación
-  abrirPapelera() {
-    this.router.navigate(['/papelera']);
-  }
-
-  abrirFavoritos() {
-    this.router.navigate(['/favoritos']);
-  }
-
-  abrirVistaNotas() {
-    this.router.navigate(['/vista-notas']);
-  }
+  abrirPapelera() { this.router.navigate(['/papelera']); }
+  abrirFavoritos() { this.router.navigate(['/favoritos']); }
+  abrirVistaNotas() { this.router.navigate(['/vista-notas']); }
 
   // 🔹 Tema oscuro
   toggleTema() {
-    if (this.modoOscuro) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    document.body.classList.toggle('dark', this.modoOscuro);
   }
 
-  // 🔹 Reportar bug
   reportarBug() {
-    window.open(
-      'mailto:soporte@haipy.com?subject=Reporte de bug Haipy&body=Describe aquí el problema...',
-      '_blank'
-    );
+    window.open('mailto:soporte@haipy.com?subject=Reporte de bug Haipy&body=Describe aquí el problema...', '_blank');
+  }
+
+  // 🔹 Alerta personalizada
+  private async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertCtrl.create({
+      header: titulo,
+      message: `<div style="font-size: 15px; color: var(--ion-color-primary);">${mensaje}</div>`,
+      buttons: [{ text: 'OK', cssClass: 'alert-button-confirm' }],
+      cssClass: 'custom-alert',
+    });
+    await alert.present();
   }
 }
