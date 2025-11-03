@@ -78,3 +78,48 @@ ion-input {
 ion-button {
   margin-top: 5px;
 }
+
+.vista-opciones {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+  padding: 10px;
+
+  .opcion {
+    text-align: center;
+    width: 45%;
+    padding: 15px;
+    border-radius: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    ion-icon {
+      font-size: 30px;
+      color: var(--ion-color-primary);
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--ion-color-medium);
+    }
+
+    &.seleccionado {
+      background: var(--ion-color-primary);
+      color: white;
+
+      ion-icon {
+        color: white;
+      }
+
+      p {
+        color: white;
+      }
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

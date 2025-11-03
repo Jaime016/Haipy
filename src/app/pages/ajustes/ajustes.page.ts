@@ -161,6 +161,14 @@ exportarNotasPDF() {
       document.body.classList.remove('dark');
     }
   }
+  //Efecto de
+  estiloVista: string = 'lista';
+
+  cambiarEstilo(estilo: string) {
+    this.estiloVista = estilo;
+  }
+
+
   reportarBug() {
   window.open('mailto:soporte@haipy.com?subject=Reporte de bug Haipy&body=Describe aquí el problema...', '_blank');
 }
