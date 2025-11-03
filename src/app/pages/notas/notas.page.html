@@ -7,6 +7,7 @@
 <ion-content class="ion-padding">
 
   <ion-list class="listas">
+    <!-- Lista de notas -->
     <ion-item *ngFor="let nota of notas" class="nota-item" (click)="editarNota(nota)">
       <ion-label>
         <h2>{{ nota.titulo }}</h2>
@@ -22,32 +23,37 @@
         <ion-button fill="clear" (click)="eliminarNota(nota, $event)">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
+
+        <ion-button fill="clear" color="dark" (click)="protegerNota(nota, $event)">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-item>
 
+    <!-- Mensaje si no hay notas -->
     <ion-item *ngIf="notas.length === 0">
       <ion-label class="no-notas">No hay notas todavía.</ion-label>
     </ion-item>
   </ion-list>
 
-  <!-- Botones flotantes -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <!-- Botón de dibujar -->
-    <ion-fab-button class="fab-blanco" (click)="abrirCanvas()">
-      <ion-icon name="pencil-outline"></ion-icon>
+  <!-- Botón de dibujo -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-bottom: 70px;">
+    <ion-fab-button color="secondary" (click)="abrirLienzo()">
+      <ion-icon name="create-outline"></ion-icon>
     </ion-fab-button>
+  </ion-fab>
 
-    <!-- Botón + para nueva nota -->
-    <ion-fab-button (click)="nuevaNota()" color="light">
+  <!-- Botón agregar nueva nota -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="nuevaNota()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Canvas para dibujar -->
-  <div class="canvas-container" *ngIf="canvasAbierto">
+  <!-- Canvas flotante para dibujar -->
+  <div *ngIf="mostrarLienzo" class="lienzo-container">
     <canvas #canvas></canvas>
-    <ion-button expand="block" (click)="guardarDibujo()">Guardar Dibujo</ion-button>
-    <ion-button expand="block" color="medium" (click)="cerrarCanvas()">Cerrar</ion-button>
+    <ion-button expand="block" color="danger" (click)="cerrarLienzo()">Cerrar Lienzo</ion-button>
   </div>
 
 </ion-content>
