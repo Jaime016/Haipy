@@ -73,10 +73,6 @@ exportarNotasPDF() {
   doc.save('notas_haipy.pdf');
 }
 
-
-
-
-
   constructor(private router: Router, private alertCtrl: AlertController) {}
 
   // 🔹 Cambiar o elegir imagen
@@ -109,10 +105,7 @@ exportarNotasPDF() {
       }).then(alert => alert.present());
     }
   }
-  //hasta aqui
-  //registrarse() {
-  //  this.router.navigate(['/registro']);
-  //}
+ 
   mostrarRegistro: boolean = false; // controla la visibilidad del formulario de registro
   nombreRegistro: string = '';
   correoRegistro: string = '';

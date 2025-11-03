@@ -27,19 +27,7 @@
       <ion-card-title>Cuenta</ion-card-title>
       <ion-card-subtitle>Gestión de acceso</ion-card-subtitle>
     </ion-card-header>
-      <!--<ion-card-content>
-        <ion-button expand="block" color="primary" (click)="iniciarSesion()">
-        
-          Iniciar sesión
-        </ion-button>
-        <ion-button expand="block" fill="outline" (click)="registrarse()">
-          Crear cuenta
-        </ion-button>
-        <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
-          <ion-icon name="logo-google" slot="start"></ion-icon>
-          Iniciar con Google
-        </ion-button>
-      </ion-card-content>-->
+
       <ion-card-content>
     <!-- Solo se muestran si no hay usuario logueado -->
     <div *ngIf="!nombreUsuario">
@@ -114,8 +102,6 @@
       <input type="file" #fileInput (change)="importarNotasJSON($event)" hidden accept=".json">
     </ion-card-content>
   </ion-card>
-
-
     <ion-item button detail (click)="abrirFavoritos()">
       <ion-icon slot="start" name="star-outline"></ion-icon>
       <ion-label>Notas favoritas</ion-label>
