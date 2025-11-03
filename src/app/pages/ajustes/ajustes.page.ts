@@ -168,5 +168,8 @@ exportarNotasPDF() {
       document.body.classList.remove('dark');
     }
   }
-  
+  reportarBug() {
+  window.open('mailto:soporte@haipy.com?subject=Reporte de bug Haipy&body=Describe aquí el problema...', '_blank');
+}
+
 }
