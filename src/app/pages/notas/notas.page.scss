@@ -64,3 +64,10 @@ ion-fab-button {
   color: #6c757d;
   font-style: italic;
 }
+
+/* Fondo del FAB */
+.fab-blanco {
+  --background: #ffffff; /* Fondo del FAB */
+  --color: #3880ff;      /* Color del icono "+" */
+}
+

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NotasService, Nota } from '../../services/notes.service';
-import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [IonicModule, CommonModule],
+  imports: [IonicModule, CommonModule, FormsModule],
   selector: 'app-notas',
   templateUrl: './notas.page.html',
   styleUrls: ['./notas.page.scss'],
@@ -13,8 +13,14 @@ import { Router } from '@angular/router';
 })
 export class NotasPage {
   notas: Nota[] = [];
+  mostrandoFormulario = false;
 
-  constructor(private notasService: NotasService, private router: Router) {}
+  nueva = {
+    titulo: '',
+    contenido: ''
+  };
+
+  constructor(private notasService: NotasService) {}
 
   async ionViewWillEnter() {
     this.notas = await this.notasService.obtenerNotas();
@@ -22,14 +28,10 @@ export class NotasPage {
   }
 
   async eliminarNota(nota: Nota, event?: Event) {
-    event?.stopPropagation(); // Evita abrir la nota al hacer click en eliminar
+    event?.stopPropagation();
     await this.notasService.eliminarNota(nota.id);
     this.notas = await this.notasService.obtenerNotas();
     this.ordenarNotas();
-  }
-
-  editarNota(nota: Nota) {
-    this.router.navigate(['/agregar'], { state: { nota } });
   }
 
   async toggleFavorito(nota: Nota, event: Event) {
@@ -40,12 +42,28 @@ export class NotasPage {
   }
 
   ordenarNotas() {
-    // Favoritos primero
     this.notas.sort((a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0));
   }
 
-  // 🔹 Agregamos este método que faltaba
-  nuevaNota() {
-    this.router.navigate(['/agregar']);
+  // Mostrar el formulario
+  mostrarFormulario() {
+    this.mostrandoFormulario = true;
+  }
+
+  // Guardar nueva nota
+  async guardarNuevaNota() {
+    if (this.nueva.titulo && this.nueva.contenido) {
+      await this.notasService.agregarNota(this.nueva.titulo, this.nueva.contenido);
+      this.notas = await this.notasService.obtenerNotas();
+      this.ordenarNotas();
+      this.nueva = { titulo: '', contenido: '' };
+      this.mostrandoFormulario = false;
+    }
+  }
+
+  // Cancelar la creación
+  cancelarNuevaNota() {
+    this.nueva = { titulo: '', contenido: '' };
+    this.mostrandoFormulario = false;
   }
 }
