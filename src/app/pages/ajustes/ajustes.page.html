@@ -8,12 +8,13 @@
 
   <!-- 🔹 CABECERA DE PERFIL -->
   <div class="perfil-header">
+    <!-- Imagen de perfil clickeable para seleccionar desde galería -->
     <img
-      [src]="imagenPerfil || 'assets/default-avatar.png'"
-      alt="Imagen de perfil"
-      class="perfil-img"
-      (click)="cambiarImagen()"
-    />
+  [src]="imagenPerfil || 'assets/default-avatar.png'"
+  alt="Imagen de perfil"
+  class="perfil-img"
+  (click)="cambiarImagen()"/>
+  
     <h2>{{ nombreUsuario || 'Usuario invitado' }}</h2>
     <p>{{ correoUsuario || 'Iniciá sesión para sincronizar tus notas' }}</p>
     <ion-button fill="clear" color="light" (click)="cambiarImagen()">
@@ -22,86 +23,90 @@
   </div>
 
   <!-- 🔹 CUENTA DE USUARIO -->
-    <ion-card>
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Cuenta</ion-card-title>
       <ion-card-subtitle>Gestión de acceso</ion-card-subtitle>
     </ion-card-header>
 
-      <ion-card-content>
-    <!-- Solo se muestran si no hay usuario logueado -->
-    <div *ngIf="!nombreUsuario">
+    <ion-card-content>
+      <!-- Se muestran opciones solo si NO hay usuario logueado -->
+      <div *ngIf="!nombreUsuario">
 
-      <!-- Botón Iniciar sesión -->
-      <div>
-        <ion-button expand="block" color="primary" (click)="mostrarLogin = !mostrarLogin; mostrarRegistro = false;">
-          Iniciar sesión
-        </ion-button>
+        <!-- Botón Iniciar sesión -->
+        <div>
+          <ion-button expand="block" color="primary"
+            (click)="mostrarLogin = !mostrarLogin; mostrarRegistro = false;">
+            Iniciar sesión
+          </ion-button>
 
-        <!-- Formulario de login debajo del botón -->
-        <div *ngIf="mostrarLogin" class="login-form" style="margin-top: 10px;">
-          <ion-input placeholder="Correo" [(ngModel)]="correoLogin" type="email"></ion-input>
-          <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaLogin" type="password"></ion-input>
-          <ion-button expand="block" color="primary" (click)="loguearUsuario()">Entrar</ion-button>
+          <!-- Formulario de login -->
+          <div *ngIf="mostrarLogin" class="login-form" style="margin-top: 10px;">
+            <ion-input placeholder="Correo" [(ngModel)]="correoLogin" type="email"></ion-input>
+            <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaLogin" type="password"></ion-input>
+            <ion-button expand="block" color="primary" (click)="loguearUsuario()">Entrar</ion-button>
+          </div>
         </div>
-      </div>
 
-      <!-- Botón Crear cuenta -->
-      <div style="margin-top: 15px;">
-        <ion-button expand="block" color="primary" (click)="mostrarRegistro = !mostrarRegistro; mostrarLogin = false;">
-          Crear cuenta
-        </ion-button>
+        <!-- Botón Crear cuenta -->
+        <div style="margin-top: 15px;">
+          <ion-button expand="block" color="primary"
+            (click)="mostrarRegistro = !mostrarRegistro; mostrarLogin = false;">
+            Crear cuenta
+          </ion-button>
 
-        <!-- Formulario de registro debajo del botón -->
-        <div *ngIf="mostrarRegistro" class="registro-form" style="margin-top: 10px;">
-          <ion-input placeholder="Nombre" [(ngModel)]="nombreRegistro"></ion-input>
-          <ion-input placeholder="Correo" [(ngModel)]="correoRegistro" type="email"></ion-input>
-          <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaRegistro" type="password"></ion-input>
-          <ion-button expand="block" color="primary" (click)="crearCuenta()">Crear cuenta</ion-button>
+          <!-- Formulario de registro -->
+          <div *ngIf="mostrarRegistro" class="registro-form" style="margin-top: 10px;">
+            <ion-input placeholder="Nombre" [(ngModel)]="nombreRegistro"></ion-input>
+            <ion-input placeholder="Correo" [(ngModel)]="correoRegistro" type="email"></ion-input>
+            <ion-input placeholder="Contraseña" [(ngModel)]="contrasenaRegistro" type="password"></ion-input>
+            <ion-button expand="block" color="primary" (click)="crearCuenta()">Crear cuenta</ion-button>
+          </div>
         </div>
-      </div>
 
-      <!-- Botón Google siempre visible mientras no hay usuario -->
-      <div style="margin-top: 15px;">
-        <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
-          <ion-icon name="logo-google" slot="start"></ion-icon>
-          Iniciar con Google
-        </ion-button>
-      </div>
+        <!-- Botón Google -->
+        <div style="margin-top: 15px;">
+          <ion-button expand="block" color="danger" fill="clear" (click)="loginConGoogle()">
+            <ion-icon name="logo-google" slot="start"></ion-icon>
+            Iniciar con Google
+          </ion-button>
+        </div>
 
-    </div> <!-- FIN *ngIf="!nombreUsuario" -->
-  </ion-card-content>
+      </div> <!-- FIN *ngIf="!nombreUsuario" -->
+    </ion-card-content>
+  </ion-card> 
 
-
-
-    </ion-card> 
-    
   <!-- 🔹 OPCIONES DE NOTAS -->
   <ion-list inset>
     <ion-list-header>
       <ion-label>Gestión de notas</ion-label>
     </ion-list-header>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Exportar / Importar Notas</ion-card-title>
-      <ion-card-subtitle>Respaldá tus notas de Haipy</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button expand="block" color="primary" (click)="exportarNotasJSON()">
-        Exportar notas (JSON)
-      </ion-button>
 
-      <ion-button expand="block" color="secondary" (click)="exportarNotasPDF()">
-        Exportar notas (PDF)
-      </ion-button>
+    <!-- Exportar / Importar -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Exportar / Importar Notas</ion-card-title>
+        <ion-card-subtitle>Respaldá tus notas de Haipy</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button expand="block" color="primary" (click)="exportarNotasJSON()">
+          Exportar notas (JSON)
+        </ion-button>
 
-      <ion-button expand="block" color="tertiary" (click)="fileInput.click()">
-        Importar notas (JSON)
-      </ion-button>
+        <ion-button expand="block" color="secondary" (click)="exportarNotasPDF()">
+          Exportar notas (PDF)
+        </ion-button>
 
-      <input type="file" #fileInput (change)="importarNotasJSON($event)" hidden accept=".json">
-    </ion-card-content>
-  </ion-card>
+        <ion-button expand="block" color="tertiary" (click)="fileInput.click()">
+          Importar notas (JSON)
+        </ion-button>
+
+        <!-- Input oculto para importar JSON -->
+        <input type="file" #fileInput (change)="importarNotasJSON($event)" hidden accept=".json">
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Accesos rápidos -->
     <ion-item button detail (click)="abrirFavoritos()">
       <ion-icon slot="start" name="star-outline"></ion-icon>
       <ion-label>Notas favoritas</ion-label>
@@ -136,39 +141,37 @@
     <ion-icon name="log-out-outline" slot="start"></ion-icon>
     Cerrar sesión
   </ion-button>
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Acerca de Haipy</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
 
-    <p><strong>Versión de la aplicación:</strong> 1.0.0</p>
+  <!-- 🔹 INFORMACIÓN SOBRE LA APP -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Acerca de Haipy</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Versión de la aplicación:</strong> 1.0.0</p>
 
-    <p>
-      <strong>Descripción:</strong> Haipy es un sistema de gestión de notas diseñado para ofrecer una experiencia segura y eficiente, permitiendo al usuario organizar, almacenar y exportar sus notas de manera rápida y confiable.
-    </p>
+      <p>
+        <strong>Descripción:</strong> Haipy es un sistema de gestión de notas diseñado para ofrecer una experiencia segura y eficiente, permitiendo al usuario organizar, almacenar y exportar sus notas de manera rápida y confiable.
+      </p>
 
-    <p>
-      <strong>Términos y condiciones:</strong>
-      <a href="https://www.haipy.com/terminos" target="_blank">Consultar términos y condiciones</a>
-    </p>
+      <p>
+        <strong>Términos y condiciones:</strong>
+        <a href="https://www.haipy.com/terminos" target="_blank">Consultar términos y condiciones</a>
+      </p>
 
-    <p>
-      <strong>Política de privacidad:</strong>
-      <a href="https://www.haipy.com/privacidad" target="_blank">Consultar política de privacidad</a>
-    </p>
+      <p>
+        <strong>Política de privacidad:</strong>
+        <a href="https://www.haipy.com/privacidad" target="_blank">Consultar política de privacidad</a>
+      </p>
 
-    <p>
-      <strong>Contacto y soporte:</strong> soporte@haipy.com
-    </p>
+      <p>
+        <strong>Contacto y soporte:</strong> soporte@haipy.com
+      </p>
 
-    <ion-button expand="block" color="danger" fill="outline" (click)="reportarBug()">
-      Reportar
-    </ion-button>
-
-  </ion-card-content>
-</ion-card>
-
-
+      <ion-button expand="block" color="danger" fill="outline" (click)="reportarBug()">
+        Reportar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

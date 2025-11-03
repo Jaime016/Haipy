@@ -1,27 +1,87 @@
+/* ==================== 🔹 CABECERA DE PERFIL ==================== */
 .perfil-header {
   text-align: center;
   background: linear-gradient(135deg, #4a90e2, #357abd);
-  padding: 30px 0 20px 0;
+  padding: 6vh 4vw; /* Más espacio arriba y abajo */
   color: white;
-  border-radius: 0 0 30px 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 3rem 3rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  max-width: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
+/* Imagen de perfil */
+.perfil-header img,
 .perfil-img {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
+  width: clamp(90px, 25vw, 180px); /* Se adapta según pantalla */
+  height: clamp(90px, 25vw, 180px);
   object-fit: cover;
-  border: 3px solid white;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  border-radius: 50%;
+  border: 4px solid white;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer; /* Indica que se puede clickear */
+  transition: transform 0.3s ease;
 }
 
-.perfil-img:hover {
-  transform: scale(1.05);
+/* Hover opcional en pantallas grandes */
+@media (hover: hover) {
+  .perfil-header img:hover,
+  .perfil-img:hover {
+    transform: scale(1.05);
+  }
 }
 
+/* Nombre del usuario */
+.perfil-header h2 {
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  margin: 0.5rem 0;
+  font-weight: 700;
+}
+
+/* Correo del usuario */
+.perfil-header p {
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* ==================== 🔹 RESPONSIVE ==================== */
+/* Teléfonos pequeños */
+@media (max-width: 480px) {
+  .perfil-header {
+    padding: 25px 15px;
+  }
+  .perfil-header img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Tablets medianas */
+@media (min-width: 481px) and (max-width: 768px) {
+  .perfil-header {
+    padding: 35px 20px;
+  }
+  .perfil-header img {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* Pantallas grandes (monitores, laptops) */
+@media (min-width: 1024px) {
+  .perfil-header {
+    padding: 8vh 0;
+  }
+  .perfil-header img {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* ==================== 🔹 TARJETAS Y LISTAS ==================== */
 ion-card {
   margin: 20px 10px;
   border-radius: 20px;
@@ -42,27 +102,14 @@ ion-toggle {
   --background-checked: #4a90e2;
 }
 
+/* ==================== 🔹 MODO OSCURO ==================== */
 .dark .perfil-header {
   background: linear-gradient(135deg, #1c1c1c, #333);
 }
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
 
-ion-input {
-  --background: #f4f4f4;
-  --border-radius: 12px;
-  padding-left: 10px;
-}
-
-ion-button {
-  margin-top: 5px;
-}
-
-.registro-form, .login-form {
+/* ==================== 🔹 FORMULARIOS LOGIN / REGISTRO ==================== */
+.login-form,
+.registro-form {
   display: flex;
   flex-direction: column;
   gap: 10px;

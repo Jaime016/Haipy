@@ -1,8 +1,8 @@
-export interface Nota {
+export interface Note {
   id: number;
-  titulo: string;
-  contenido: string;
-  fecha: string;
-  favorito: boolean;
+  title: string;
+  content: string;
+  favorite: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
